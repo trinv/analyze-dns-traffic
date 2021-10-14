@@ -14,21 +14,17 @@
 #
 # Use a descriptive name for your cluster:
 #
-#cluster.name: my-cluster
+#cluster.name: mon_cluster
 #
 # ------------------------------------ Node ------------------------------------
 #
 # Use a descriptive name for the node:
 #
-#node.name: node-149
+#node.name: node-1
 #
 # Add custom attributes to the node:
 #
 #node.attr.rack: r1
-#node.master: fales
-#node.data: fales
-#index.number_of_shards: 1
-#index.number_of_replicas: 0
 #
 # ----------------------------------- Paths ------------------------------------
 #
@@ -54,11 +50,13 @@ path.logs: /var/log/elasticsearch
 #
 # ---------------------------------- Network -----------------------------------
 #
-# Set the bind address to a specific IP (IPv4 or IPv6):
+# By default Elasticsearch is only accessible on localhost. Set a different
+# address here to expose this node on the network:
 #
 network.host: 0.0.0.0
 #
-# Set a custom port for HTTP:
+# By default Elasticsearch listens for HTTP traffic on the first free port it
+# finds starting at 9200. Set a specific HTTP port here:
 #
 http.port: 9200
 #
@@ -69,25 +67,21 @@ http.port: 9200
 # Pass an initial list of hosts to perform discovery when this node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
-#discovery.seed_hosts: ["host1", "host2"]
-discovery.seed_hosts: ["203.119.8.149"]
+discovery.seed_hosts: ["192.168.5.5"]
 #
 # Bootstrap the cluster using an initial set of master-eligible nodes:
 #
-#cluster.initial_master_nodes: ["node-1", "node-2"]
+#cluster.initial_master_nodes: ["node-1"]
 #
 # For more information, consult the discovery and cluster formation module documentation.
-#
-# ---------------------------------- Gateway -----------------------------------
-#
-# Block initial recovery after a full cluster restart until N nodes are started:
-#
-#gateway.recover_after_nodes: 3
-#
-# For more information, consult the gateway module documentation.
 #
 # ---------------------------------- Various -----------------------------------
 #
 # Require explicit names when deleting indices:
 #
 #action.destructive_requires_name: true
+
+action.auto_create_index: true
+discovery.type: single-node
+xpack.monitoring.collection.enabled: true
+xpack.security.enabled: true
