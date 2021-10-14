@@ -19,7 +19,7 @@ sudo apt install elasticsearch
 ```
 File config: `/etc/elasticsearch/elasticsearch.yml`
 
-Template file config: `elasticsearch.yml.template`
+Template file config: [elasticsearch.yml.template](https://github.com/trinv/elk-dns/blob/master/elasticsearch.yml.template)
 
 Start & Enable Elasticsearch
 ```
@@ -34,7 +34,7 @@ sudo apt install kibana
 ```
 File config: `/etc/kibana/kibana.yml`
 
-Template file config: `kibana.yml.template`
+Template file config: [kibana.yml.template](https://github.com/trinv/elk-dns/blob/master/kibana.yml.template)
 
 Start & Enable Kibana
 ```
@@ -77,7 +77,7 @@ elasticsearch.username: "kibana_system"
 elasticsearch.password: "Aw0Wkdxpai7gZcEXxmgz"
 ```
 ## Enable X-Pack security for elastic & kibana
-Change the configuration in `elasticsearch.yml` file:
+Change the configuration in [elasticsearch.yml.template](https://github.com/trinv/elk-dns/blob/master/elasticsearch.yml.template) file:
 ```
 xpack.monitoring.collection.enabled: true
 xpack.security.enabled: true
@@ -86,7 +86,7 @@ Generate Xpack Encrytion Key:
 ```
 /usr/share/kibana/bin/kibana-encryption-keys generate
 ```
-Update those information into `kibana.yml` file config:
+Update those information into [kibana.yml.template](https://github.com/trinv/elk-dns/blob/master/kibana.yml.template) file config:
 ```
   #Settings:
 xpack.encryptedSavedObjects.encryptionKey: ca1072cad8df9051338308968c9cbcfb
@@ -158,7 +158,7 @@ output.elasticsearch:
 ```
 * User & password for elastic that we generated before on Elastic server
 
-Reference in config file template `packetbeat.yml.template`
+Reference in config file template [packetbeat.yml.template](https://github.com/trinv/elk-dns/blob/master/packetbeat.yml.template)
 
 Restart Packetbeat
 ```
