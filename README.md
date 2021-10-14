@@ -71,4 +71,30 @@ PASSWORD remote_monitoring_user = Zl7bbH9cpu5DeX5iWn0E
 Changed password for user elastic
 PASSWORD elastic = eHGIdPnw0x3VeNy9Z3Ua
 ```
-
+Update those information into `kibana.yml` file config:
+```
+elasticsearch.username: "kibana_system"
+elasticsearch.password: "Aw0Wkdxpai7gZcEXxmgz"
+```
+## Enable X-Pack security for elastic & kibana
+Change the configuration in `elasticsearch.yml` file:
+```
+xpack.monitoring.collection.enabled: true
+xpack.security.enabled: true
+```
+Generate Xpack Encrytion Key:
+```
+/usr/share/kibana/bin/kibana-encryption-keys generate
+```
+Update those information into `kibana.yml` file config:
+```
+  #Settings:
+xpack.encryptedSavedObjects.encryptionKey: ca1072cad8df9051338308968c9cbcfb
+xpack.reporting.encryptionKey: f850893b440fc2511b85683d98a29c6e
+xpack.security.encryptionKey: f99f7ddd65d7f17e0340ed00eb8a0402
+```
+Restart Elastic & Kibana
+```
+systemctl restart elasticsearh
+systemctl restart kibana
+```
