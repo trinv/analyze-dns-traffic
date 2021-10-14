@@ -99,5 +99,72 @@ systemctl restart elasticsearh
 systemctl restart kibana
 ```
 ## 2. Install Packetbeat on the Agent server
+```
+apt update
+curl -L -O https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-7.14.1-amd64.deb
+sudo dpkg -i packetbeat-7.14.1-amd64.deb
+```
+Start & Enable Packetbeat
+```
+systemctl start packetbeat
+systemctl enable packetbeat
+systemctl status packetbeat
+```
+Edit config file `/etc/packetbeat/packetbeat.yml` to get DNS traffic on DNS servers  & push into Elastic & Kibana server
+* DNS traffic
+```
+packetbeat.protocols:
+
+  - type: dns
+  # Configure the ports where to listen for DNS traffic. You can disable
+  # the DNS protocol by commenting out the list of ports.
+    ports: [53]
+    include_authorities: true
+    include_additionals: true
+```
+* Connect to Elastic & Kibana server:
+
+```
+# =================================== Kibana ===================================
+
+# Starting with Beats version 6.0.0, the dashboards are loaded via the Kibana API.
+# This requires a Kibana endpoint configuration.
+setup.kibana:
+
+  # Kibana Host
+  # Scheme and port can be left out and will be set to the default (http and 5601)
+  # In case you specify and additional path, the scheme is required: http://localhost:5601/path
+  # IPv6 addresses should always be defined as: https://[2001:db8::1]:5601
+  host: "192.168.5.5:5601"
+
+  # Kibana Space ID
+  # ID of the Kibana Space into which the dashboards should be loaded. By default,
+  # the Default Space will be used.
+  #space.id:
+
+# ---------------------------- Elasticsearch Output ----------------------------
+output.elasticsearch:
+  # Array of hosts to connect to.
+  hosts: ["192.168.5.5:9200"]
+  pipeline: geoip-info
+
+  # Protocol - either `http` (default) or `https`.
+  #protocol: "https"
+
+  # Authentication credentials - either API key or username/password.
+  #api_key: "id:api_key"
+  username: "elastic"
+  password: "eHGIdPnw0x3VeNy9Z3Ua"
+```
+* User & password for elastic that we generated before on Elastic server
+
+Reference in config file template `packetbeat.yml.template`
+
+Restart Packetbeat
+```
+systemctl restart packetbeat
+systemctl status packetbeat
+```
+
 
 
