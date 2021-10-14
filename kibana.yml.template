@@ -4,9 +4,7 @@ server.port: 5601
 # Specifies the address to which the Kibana server will bind. IP addresses and host names are both valid values.
 # The default is 'localhost', which usually means remote machines will not be able to connect.
 # To allow connections from remote users, set this parameter to a non-loopback address.
-#server.host: "localhost"
-
-server.host: "0.0.0.0"
+server.host: "192.168.5.5"
 
 # Enables you to specify a path to mount Kibana at if you are running behind a proxy.
 # Use the `server.rewriteBasePath` setting to tell Kibana if it should remove the basePath
@@ -20,25 +18,18 @@ server.host: "0.0.0.0"
 # default to `true` starting in Kibana 7.0.
 #server.rewriteBasePath: false
 
+# Specifies the public URL at which Kibana is available for end users. If
+# `server.basePath` is configured this URL should end with the same basePath.
+#server.publicBaseUrl: ""
+
 # The maximum payload size in bytes for incoming server requests.
-#server.maxPayloadBytes: 1048576
+#server.maxPayload: 1048576
 
 # The Kibana server's name.  This is used for display purposes.
 #server.name: "your-hostname"
 
-server.name: "dnsmon.lab.vn"
-
 # The URLs of the Elasticsearch instances to use for all your queries.
-#elasticsearch.hosts: ["http://localhost:9200"]
-
-elasticsearch.hosts: ["http://203.119.8.149:9200"]
-
-#elasticsearch.url: "http://localhost:9200"
-
-# When this setting's value is true Kibana uses the hostname specified in the server.host
-# setting. When the value of this setting is false, Kibana uses the hostname of the host
-# that connects to this Kibana instance.
-#elasticsearch.preserveHost: true
+elasticsearch.hosts: ["http://localhost:9200"]
 
 # Kibana uses an index in Elasticsearch to store saved searches, visualizations and
 # dashboards. Kibana creates a new index if the index doesn't already exist.
@@ -51,8 +42,8 @@ elasticsearch.hosts: ["http://203.119.8.149:9200"]
 # the username and password that the Kibana server uses to perform maintenance on the Kibana
 # index at startup. Your Kibana users still need to authenticate with Elasticsearch, which
 # is proxied through the Kibana server.
-elasticsearch.username: "kibana_admin"
-elasticsearch.password: "p@ssw0rd@trinv"
+elasticsearch.username: "kibana_system"
+elasticsearch.password: "Aw0Wkdxpai7gZcEXxmgz"
 
 # Enables SSL and paths to the PEM-format SSL certificate and SSL key files, respectively.
 # These settings enable SSL for outgoing requests from the Kibana server to the browser.
@@ -64,10 +55,15 @@ elasticsearch.password: "p@ssw0rd@trinv"
 # These files are used to verify the identity of Kibana to Elasticsearch and are required when
 # xpack.security.http.ssl.client_authentication in Elasticsearch is set to required.
 #elasticsearch.ssl.certificate: /path/to/your/client.crt
-#elasticsearch.ssl.key: /path/to/your/client.key
-xpack.security.encryptionKey: "gdhaTXiFPjD+K3V56z5TKaBdKB/l6JXfLEu8fsB88c0="
-xpack.security.session.idleTimeout: "10m"
-xpack.security.session.lifespan: "8h"
+##elasticsearch.ssl.key: /path/to/your/client.key
+#xpack.security.encryptionKey: "gdhaTXiFPjD+K3V56z5TKaBdKB/l6JXfLEu8fsB88c0="
+#xpack.security.session.idleTimeout: "10m"
+#xpack.security.session.lifespan: "8h"
+
+  #Settings:
+xpack.encryptedSavedObjects.encryptionKey: ca1072cad8df9051338308968c9cbcfb
+xpack.reporting.encryptionKey: f850893b440fc2511b85683d98a29c6e
+xpack.security.encryptionKey: f99f7ddd65d7f17e0340ed00eb8a0402
 
 # Optional setting that enables you to specify a path to the PEM file for the certificate
 # authority for your Elasticsearch instance.
@@ -95,14 +91,11 @@ xpack.security.session.lifespan: "8h"
 # Time in milliseconds for Elasticsearch to wait for responses from shards. Set to 0 to disable.
 #elasticsearch.shardTimeout: 30000
 
-# Time in milliseconds to wait for Elasticsearch at Kibana startup before retrying.
-#elasticsearch.startupTimeout: 5000
-
 # Logs queries sent to Elasticsearch. Requires logging.verbose set to true.
 #elasticsearch.logQueries: false
 
 # Specifies the path where Kibana creates the process ID file.
-#pid.file: /var/run/kibana.pid
+#pid.file: /run/kibana/kibana.pid
 
 # Enables you to specify a file where Kibana stores log output.
 #logging.dest: stdout
@@ -124,3 +117,4 @@ xpack.security.session.lifespan: "8h"
 # Specifies locale to be used for all localizable strings, dates and number formats.
 # Supported languages are the following: English - en , by default , Chinese - zh-CN .
 #i18n.locale: "en"
+security.showInsecureClusterWarning: false
