@@ -98,3 +98,6 @@ Restart Elastic & Kibana
 systemctl restart elasticsearh
 systemctl restart kibana
 ```
+2. Install Packetbeat on the Agent server
+
+
