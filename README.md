@@ -166,5 +166,5 @@ systemctl restart packetbeat
 systemctl status packetbeat
 ```
 
-
+![Dashboard-ELK](https://github.com/trinv/elk-dns/blob/master/dashboard.png)
 
