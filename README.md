@@ -165,6 +165,223 @@ Restart Packetbeat
 systemctl restart packetbeat
 systemctl status packetbeat
 ```
+## 3. GeoIP Kibana:
 
-![Dashboard-ELK](https://github.com/trinv/elk-dns/blob/master/dashboard.png)
+Configure the geoip processoredit
+To configure Filebeat and the geoip processor:
 
+Define an ingest node pipeline that uses one or more geoip processors to add location information to the event. For example, you can use the Console in Kibana `Dev Tool` to create the following pipeline:
+```
+PUT _ingest/pipeline/geoip-info
+{
+  "description": "Add geoip info",
+  "processors": [
+    {
+      "geoip": {
+        "field": "client.ip",
+        "target_field": "client.geo",
+        "ignore_missing": true
+      }
+    },
+    {
+      "geoip": {
+        "field": "source.ip",
+        "target_field": "source.geo",
+        "ignore_missing": true
+      }
+    },
+    {
+      "geoip": {
+        "field": "destination.ip",
+        "target_field": "destination.geo",
+        "ignore_missing": true
+      }
+    },
+    {
+      "geoip": {
+        "field": "server.ip",
+        "target_field": "server.geo",
+        "ignore_missing": true
+      }
+    },
+    {
+      "geoip": {
+        "field": "host.ip",
+        "target_field": "host.geo",
+        "ignore_missing": true
+      }
+    }
+  ]
+}
+```
+ 
+In this example, the pipeline ID is `geoip-info`. field specifies the field that contains the IP address to use for the geographical lookup, and `target_field` is the field that will hold the geographical information. `"ignore_missing":` true configures the pipeline to continue processing when it encounters an event that doesn’t have the specified field.
+
+See GeoIP Processor for more options.
+
+To learn more about adding host information to an event, see `add_host_metadata`.
+
+In the `Packetbeat` config file, configure the Elasticsearch output to use the `pipeline`. Specify the pipeline ID in the pipeline option under `output.elasticsearch`. For example:
+```
+output.elasticsearch:
+  hosts: ["localhost:9200"]
+  pipeline: geoip-info
+```
+Run `Packetbeat`. Remember to use sudo if the config file is owned by root.
+```
+systemctl restart packetbeat
+```
+If the lookups succeed, the events are enriched with `geo_point` fields, such as `client.geo.location` and `host.geo.location`, that you can use to populate visualizations in Kibana.
+
+If you add a field that’s not already defined as a `geo_point` in the index template, add a mapping so the field gets indexed correctly.
+
+## Notice
+It not working, You can add on Kibana Console:
+Define an ingest pipeline that uses one or more `geoip` processors to add location information to the event. For example, you can use the Console in Kibana to create the following pipeline:
+```
+PUT _ingest/pipeline/geoip-info
+{
+  "description": "Add geoip info",
+  "processors": [
+    {
+      "geoip": {
+        "field": "client.ip",
+        "target_field": "client.geo",
+        "ignore_missing": true
+      }
+    },
+    {
+      "geoip": {
+        "database_file": "GeoLite2-ASN.mmdb",
+        "field": "client.ip",
+        "target_field": "client.as",
+        "properties": [
+          "asn",
+          "organization_name"
+        ],
+        "ignore_missing": true
+      }
+    },
+    {
+      "geoip": {
+        "field": "source.ip",
+        "target_field": "source.geo",
+        "ignore_missing": true
+      }
+    },
+    {
+      "geoip": {
+        "database_file": "GeoLite2-ASN.mmdb",
+        "field": "source.ip",
+        "target_field": "source.as",
+        "properties": [
+          "asn",
+          "organization_name"
+        ],
+        "ignore_missing": true
+      }
+    },
+    {
+      "geoip": {
+        "field": "destination.ip",
+        "target_field": "destination.geo",
+        "ignore_missing": true
+      }
+    },
+    {
+      "geoip": {
+        "database_file": "GeoLite2-ASN.mmdb",
+        "field": "destination.ip",
+        "target_field": "destination.as",
+        "properties": [
+          "asn",
+          "organization_name"
+        ],
+        "ignore_missing": true
+      }
+    },
+    {
+      "geoip": {
+        "field": "server.ip",
+        "target_field": "server.geo",
+        "ignore_missing": true
+      }
+    },
+    {
+      "geoip": {
+        "database_file": "GeoLite2-ASN.mmdb",
+        "field": "server.ip",
+        "target_field": "server.as",
+        "properties": [
+          "asn",
+          "organization_name"
+        ],
+        "ignore_missing": true
+      }
+    },
+    {
+      "geoip": {
+        "field": "host.ip",
+        "target_field": "host.geo",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "server.as.asn",
+        "target_field": "server.as.number",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "server.as.organization_name",
+        "target_field": "server.as.organization.name",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "client.as.asn",
+        "target_field": "client.as.number",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "client.as.organization_name",
+        "target_field": "client.as.organization.name",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "source.as.asn",
+        "target_field": "source.as.number",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "source.as.organization_name",
+        "target_field": "source.as.organization.name",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "destination.as.asn",
+        "target_field": "destination.as.number",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "destination.as.organization_name",
+        "target_field": "destination.as.organization.name",
+        "ignore_missing": true
+      }
+    }
+  ]
+}
+```
