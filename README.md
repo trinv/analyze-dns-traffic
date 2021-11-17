@@ -23,9 +23,9 @@ Template file config: [elasticsearch.yml.template](https://github.com/trinv/elk-
 
 Start & Enable Elasticsearch
 ```
-systemctl start elasticsearh
-systemctl enable elasticsearh
-systemctl status elasticsearh
+systemctl start elasticsearch
+systemctl enable elasticsearch
+systemctl status elasticsearch
 ```
 ## Install Kibana 7.x on Ubuntu 20.04 | Debian 9/10
 ```
@@ -46,7 +46,7 @@ systemctl status kibana
 Generate password auto for users Elastic + Kibana:
 
 ```
-/usr/share/elasticsearch/bin/ /elasticsearch-setup-passwords auto
+/usr/share/elasticsearch/bin/elasticsearch-setup-passwords auto
 ```
 Output:
 ```
@@ -95,7 +95,7 @@ xpack.security.encryptionKey: f99f7ddd65d7f17e0340ed00eb8a0402
 ```
 Restart Elastic & Kibana
 ```
-systemctl restart elasticsearh
+systemctl restart elasticsearch
 systemctl restart kibana
 ```
 ## 2. Install Packetbeat on the Agent server
