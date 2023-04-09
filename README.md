@@ -102,8 +102,8 @@ systemctl restart kibana
 ## 2. Install Packetbeat on the Agent server
 ```
 apt update
-curl -L -O https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-7.14.1-amd64.deb
-sudo dpkg -i packetbeat-7.14.1-amd64.deb
+curl -L -O https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-7.17.9-amd64.deb
+sudo dpkg -i packetbeat-7.17.9-amd64.deb
 ```
 Start & Enable Packetbeat
 ```
